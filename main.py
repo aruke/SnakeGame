@@ -36,8 +36,8 @@ def draw_grid():
         
 def draw_cell(x,y, color):
     pygame.draw.rect(DISPLAY, color, (x*CELL_SIZE, y*CELL_SIZE,
-                                      x+CELL_SIZE-1, y+CELL_SIZE-1))
-    # -1 for one pixel that crosses grid markers
+                                      CELL_SIZE+1, CELL_SIZE+1))
+    # +1 for one pixel that crosses grid markers
 
 def draw_snake():
     for cell in SNAKE_LIST:
@@ -100,7 +100,6 @@ def main():
         pygame.display.update()
         move_snake(direction)
         SNAKE_LIST.pop()
-        draw_cell(6,2,WHITE)
         FPS_CLOCK.tick(FPS) # Add delay beween move of Snake
         
         
