@@ -11,6 +11,8 @@ FPS = 2
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 CELL_SIZE = 20
+H_CELLS = WINDOW_WIDTH/CELL_SIZE
+V_CELLS = WINDOW_HEIGHT/CELL_SIZE
 
 assert WINDOW_WIDTH % CELL_SIZE == 0 , "WINDOW_WIDTH must be a multiple of CELL_SIZE"
 assert WINDOW_HEIGHT % CELL_SIZE == 0 , "WINDOW_HEIGHT must be a multiple of CELL_SIZE"
@@ -41,6 +43,9 @@ def draw_snake():
     for cell in SNAKE_LIST:
         draw_cell(cell['x'], cell['y'], GREEN)
 
+def draw_apple(x,y):
+    draw_cell(x, y, RED)
+
 # Logic functions
 def move_snake(direction):
     if direction==UP:
@@ -51,9 +56,10 @@ def move_snake(direction):
         new_head = { 'x' : SNAKE_LIST[HEAD]['x']-1, 'y' : SNAKE_LIST[HEAD]['y'] }
     elif direction==RIGHT:
         new_head = { 'x' : SNAKE_LIST[HEAD]['x']+1, 'y' : SNAKE_LIST[HEAD]['y'] }
-    print new_head
     SNAKE_LIST.insert(0, new_head)
 
+def getRandomAppleLocation():
+    return {'x':random.randint(0,H_CELLS), 'y':random.randint(0,V_CELLS)}
 # main.py
 
 def main():
@@ -70,6 +76,8 @@ def main():
                  {'x':4,'y':2}]
 
     direction = RIGHT
+
+    apple = getRandomAppleLocation()
     
     while True:
         for event in pygame.event.get():
@@ -88,6 +96,7 @@ def main():
                     direction = RIGHT
         draw_grid()
         draw_snake()
+        draw_apple(apple['x'],apple['y'])
         pygame.display.update()
         move_snake(direction)
         SNAKE_LIST.pop()
