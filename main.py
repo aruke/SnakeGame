@@ -80,6 +80,7 @@ def main():
     apple = getRandomAppleLocation()
     
     while True:
+        # Event handling
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -94,12 +95,21 @@ def main():
                     direction = LEFT
                 elif (key==K_RIGHT or key==K_d) and direction!=LEFT:
                     direction = RIGHT
+        # Check if Snake has eaten Apple
+        if SNAKE_LIST[HEAD]==apple:
+            # Our gorgeous snake has eaten the apple
+            # So generate new one
+            apple = getRandomAppleLocation()
+            # And don't remove tail
+        else:
+            SNAKE_LIST.pop()
+        # Update Display
         draw_grid()
         draw_snake()
         draw_apple(apple['x'],apple['y'])
         pygame.display.update()
         move_snake(direction)
-        SNAKE_LIST.pop()
+        
         FPS_CLOCK.tick(FPS) # Add delay beween move of Snake
         
         
