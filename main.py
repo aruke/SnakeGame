@@ -50,6 +50,18 @@ def draw_snake():
 def draw_apple(x,y):
     draw_cell(x, y, RED)
 
+def draw_score(score):
+    scoreDisp = SCORE_FONT.render("Score : %s" %(score), True, WHITE)
+    scoreRect = scoreDisp.get_rect()
+    scoreRect.topleft = (480, 20)
+    DISPLAY.blit(scoreDisp, scoreRect)
+
+def draw_title():
+    titleDisp = TITLE_FONT.render("Snake", True, WHITE)
+    titleRect = titleDisp.get_rect()
+    titleRect.topleft = (60, 15)
+    DISPLAY.blit(titleDisp, titleRect)
+
 # Logic functions
 def move_snake(direction):
     if direction==UP:
@@ -67,12 +79,14 @@ def getRandomAppleLocation():
 # main.py
 
 def main():
-    global FPS_CLOCK, DISPLAY, BASIC_FONT
+    global FPS_CLOCK, DISPLAY, SCORE_FONT, TITLE_FONT
     global SNAKE_LIST
     
     pygame.init()
     FPS_CLOCK = pygame.time.Clock()
     DISPLAY = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    SCORE_FONT = pygame.font.Font('freesansbold.ttf', 20)
+    TITLE_FONT = pygame.font.Font('freesansbold.ttf', 30)
     pygame.display.set_caption("Snake")
 
     SNAKE_LIST = [{'x':2,'y':2},
@@ -82,6 +96,8 @@ def main():
     direction = RIGHT
 
     apple = getRandomAppleLocation()
+
+    score = 0
     
     while True:
         # Event handling
@@ -105,12 +121,16 @@ def main():
             # So generate new one
             apple = getRandomAppleLocation()
             # And don't remove tail
+            # And increment score
+            score+=1
         else:
             SNAKE_LIST.pop()
         # Update Display
         draw_grid()
         draw_snake()
         draw_apple(apple['x'],apple['y'])
+        draw_score(score)
+        draw_title()
         pygame.display.update()
         move_snake(direction)
         
