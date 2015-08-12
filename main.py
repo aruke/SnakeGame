@@ -7,15 +7,19 @@ try :
 except ImportError :
     print "Cannot import required module(s). Abort."
 
-FPS = 2
+FPS = 5
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
+GRID_WIDTH = 560
+GRID_HEIGHT = 380
+GRID_ORIGIN = {'x' : (WINDOW_WIDTH-GRID_WIDTH)/2,
+                'y' : 60}#(WINDOW_HEIGHT-GRID_HEIGHT)/2}
 CELL_SIZE = 20
-H_CELLS = WINDOW_WIDTH/CELL_SIZE
-V_CELLS = WINDOW_HEIGHT/CELL_SIZE
+H_CELLS = GRID_WIDTH/CELL_SIZE
+V_CELLS = GRID_HEIGHT/CELL_SIZE
 
-assert WINDOW_WIDTH % CELL_SIZE == 0 , "WINDOW_WIDTH must be a multiple of CELL_SIZE"
-assert WINDOW_HEIGHT % CELL_SIZE == 0 , "WINDOW_HEIGHT must be a multiple of CELL_SIZE"
+assert GRID_WIDTH % CELL_SIZE == 0 , "WINDOW_WIDTH must be a multiple of CELL_SIZE"
+assert GRID_HEIGHT % CELL_SIZE == 0 , "WINDOW_HEIGHT must be a multiple of CELL_SIZE"
 
 HEAD = 0
 
@@ -29,13 +33,13 @@ RIGHT = 'right'
 
 def draw_grid():
     DISPLAY.fill(BGCOLOR)
-    for x in range(0, WINDOW_WIDTH, CELL_SIZE):
-        pygame.draw.line(DISPLAY, DARKGRAY, (x,0), (x,WINDOW_HEIGHT))
-    for y in range(0, WINDOW_HEIGHT, CELL_SIZE):
-        pygame.draw.line(DISPLAY, DARKGRAY, (0,y), (WINDOW_WIDTH,y))
+    for x in range(GRID_ORIGIN['x'], GRID_WIDTH+GRID_ORIGIN['x']+1, CELL_SIZE):
+        pygame.draw.line(DISPLAY, DARKGRAY, (x, GRID_ORIGIN['y']), (x,GRID_HEIGHT+GRID_ORIGIN['y']))
+    for y in range(GRID_ORIGIN['y'], GRID_HEIGHT+GRID_ORIGIN['y']+1, CELL_SIZE):
+        pygame.draw.line(DISPLAY, DARKGRAY, (GRID_ORIGIN['x'], y), (GRID_WIDTH+GRID_ORIGIN['x'], y))
         
 def draw_cell(x,y, color):
-    pygame.draw.rect(DISPLAY, color, (x*CELL_SIZE, y*CELL_SIZE,
+    pygame.draw.rect(DISPLAY, color, (x*CELL_SIZE+GRID_ORIGIN['x'], y*CELL_SIZE +GRID_ORIGIN['y'],
                                       CELL_SIZE+1, CELL_SIZE+1))
     # +1 for one pixel that crosses grid markers
 
@@ -59,7 +63,7 @@ def move_snake(direction):
     SNAKE_LIST.insert(0, new_head)
 
 def getRandomAppleLocation():
-    return {'x':random.randint(0,H_CELLS), 'y':random.randint(0,V_CELLS)}
+    return {'x':random.randint(0,H_CELLS-1), 'y':random.randint(0,V_CELLS-1)}
 # main.py
 
 def main():
