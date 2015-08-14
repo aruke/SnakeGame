@@ -74,6 +74,12 @@ def move_snake(direction):
         new_head = { 'x' : SNAKE_LIST[HEAD]['x']+1, 'y' : SNAKE_LIST[HEAD]['y'] }
     SNAKE_LIST.insert(0, new_head)
 
+def if_snake_bitten_itself():
+    head = SNAKE_LIST[HEAD]
+    for i in range(1,len(SNAKE_LIST)):
+        if SNAKE_LIST[i]==head:
+            print 'DEAD'
+
 def getRandomAppleLocation():
     return {'x':random.randint(0,H_CELLS-1), 'y':random.randint(0,V_CELLS-1)}
 # main.py
@@ -125,6 +131,8 @@ def main():
             score+=1
         else:
             SNAKE_LIST.pop()
+        # check if snake has bitten itself
+        if_snake_bitten_itself()
         # Update Display
         draw_grid()
         draw_snake()
