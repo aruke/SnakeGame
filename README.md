@@ -11,4 +11,7 @@ Preview
 
   ![Demo](preview.png)
 
+* Start screen.
+
+  ![Demo](start_screen.PNG)
 
