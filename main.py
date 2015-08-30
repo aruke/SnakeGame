@@ -62,6 +62,12 @@ def draw_title():
     titleRect.topleft = (60, 15)
     DISPLAY.blit(titleDisp, titleRect)
 
+def draw_press_key_message():
+    titleDisp = TITLE_FONT.render("Press any key to Play", True, WHITE)
+    titleRect = titleDisp.get_rect()
+    titleRect.center = (WINDOW_WIDTH/2, 15)
+    DISPLAY.blit(titleDisp, titleRect)
+
 # Logic functions
 def move_snake(direction):
     if direction==UP:
@@ -82,19 +88,68 @@ def if_snake_bitten_itself():
 
 def getRandomAppleLocation():
     return {'x':random.randint(0,H_CELLS-1), 'y':random.randint(0,V_CELLS-1)}
+
+def check_key_press_event():
+    if len(pygame.event.get(QUIT)) > 0:
+        pygame.quit()
+        sys.exit()
+    
+    keyUpEvents = pygame.event.get(KEYUP)
+    if len(keyUpEvents) == 0:
+        return None
+    if keyUpEvents[0].key == K_ESCAPE:
+        pygame.quit()
+        sys.exit()
+    return keyUpEvents[0].key
+
 # main.py
 
 def main():
-    global FPS_CLOCK, DISPLAY, SCORE_FONT, TITLE_FONT
+    global FPS_CLOCK, DISPLAY, SCORE_FONT, TITLE_FONT, HEADER_FONT
     
     pygame.init()
     FPS_CLOCK = pygame.time.Clock()
     DISPLAY = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     SCORE_FONT = pygame.font.Font('freesansbold.ttf', 20)
     TITLE_FONT = pygame.font.Font('freesansbold.ttf', 30)
+    HEADER_FONT = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption("Snake")
-    run_game()
 
+    while True:
+        run_start_screen()
+        run_game()
+
+def run_start_screen():
+    header_green = HEADER_FONT.render("Snake", True, GREEN)
+    header_white = HEADER_FONT.render("Snake", True, WHITE)
+
+    angle_green = 0
+    angle_white = 0
+    
+    while True:
+        DISPLAY.fill(BGCOLOR)
+        
+        rotated_green = pygame.transform.rotate(header_green, angle_green)
+        rotated_green_rect = rotated_green.get_rect()
+        rotated_green_rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        DISPLAY.blit(rotated_green, rotated_green_rect)
+
+        rotated_white = pygame.transform.rotate(header_white, angle_white)
+        rotated_white_rect = rotated_white.get_rect()
+        rotated_white_rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        DISPLAY.blit(rotated_white, rotated_white_rect)
+
+        angle_green = (angle_green+1)%360
+        angle_white = (angle_white-1)%360
+
+        draw_press_key_message()
+
+        if check_key_press_event():
+            pygame.event.get()
+            return
+
+        pygame.display.update()
+        FPS_CLOCK.tick(FPS)
 
 def run_game():
     global SNAKE_LIST
