@@ -86,7 +86,6 @@ def getRandomAppleLocation():
 
 def main():
     global FPS_CLOCK, DISPLAY, SCORE_FONT, TITLE_FONT
-    global SNAKE_LIST
     
     pygame.init()
     FPS_CLOCK = pygame.time.Clock()
@@ -94,7 +93,12 @@ def main():
     SCORE_FONT = pygame.font.Font('freesansbold.ttf', 20)
     TITLE_FONT = pygame.font.Font('freesansbold.ttf', 30)
     pygame.display.set_caption("Snake")
+    run_game()
 
+
+def run_game():
+    global SNAKE_LIST
+    
     SNAKE_LIST = [{'x':2,'y':2},
                  {'x':3,'y':2},
                  {'x':4,'y':2}]
@@ -142,8 +146,7 @@ def main():
         pygame.display.update()
         move_snake(direction)
         
-        FPS_CLOCK.tick(FPS) # Add delay beween move of Snake
-        
+        FPS_CLOCK.tick(FPS) # Add delay beween move of Snake    
         
 
 if __name__=='__main__':
