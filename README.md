@@ -2,9 +2,9 @@ SnakeGame
 =========
 A desktop game 'Snake' developed in python 2.7.
 
-This game id built using Pygame module.
-Python version used : Python 2.7
-Official site for Pygame module - [Pygame.org](http://www.pygame.org/)
+This game is built using Pygame module.<br>
+Python version used : Python 2.7<br>
+Official site for Pygame module - [Pygame.org](http://www.pygame.org/)<br>
 
 Preview
 -------
